@@ -5,7 +5,7 @@ Version:	6.0
 Release:	0.%{rcver}.1
 License:	BSD
 Group:		Libraries
-Source0:	ftp://ftp.isc.org:/isc/libbind/%{version}%{rcver}/%{name}-%{version}%{rcver}.tar.gz
+Source0:	ftp://ftp.isc.org/isc/libbind/%{version}%{rcver}/%{name}-%{version}%{rcver}.tar.gz
 # Source0-md5:	6bed81bcaffa54de99c5d1b08aae7271
 URL:		http://www.isc.org/software/libbind
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
