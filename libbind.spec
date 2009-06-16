@@ -1,12 +1,12 @@
-%define	rcver	rc1
 Summary:	libbind provides the standard resolver library
+Summary(pl.UTF-8):	Standardowa biblioteka rozwiązywania nazw
 Name:		libbind
 Version:	6.0
-Release:	0.%{rcver}.1
+Release:	1
 License:	BSD
 Group:		Libraries
-Source0:	ftp://ftp.isc.org/isc/libbind/%{version}%{rcver}/%{name}-%{version}%{rcver}.tar.gz
-# Source0-md5:	6bed81bcaffa54de99c5d1b08aae7271
+Source0:	ftp://ftp.isc.org/isc/libbind/%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	3e4e36fa39d0275ef97f74b737f30f0b
 URL:		http://www.isc.org/software/libbind
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -22,22 +22,30 @@ name-to-address and address-to-name translations, and utilizing
 
 %package devel
 Summary:	Header files and develpment documentation for libbind
+Summary(pl.UTF-8):	Pliki nagłówkowe i dokumentacja biblioteki libbind
 Group:		Development/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description devel
 Header files and libbind documentation.
 
+%description devel -l pl.UTF-8
+Pliki nagłówkowe biblioteki libbind.
+
 %package static
 Summary:	Static libbind library
+Summary(pl.UTF-8):	Statyczna biblioteka libbind
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{epoch}:%{version}-%{release}
 
 %description static
 Static libbind library.
 
+%description static -l pl.UTF-8
+Statyczna biblioteka libbind.
+
 %prep
-%setup -q -n %{name}-%{version}%{rcver}
+%setup -q
 
 %build
 %configure \
