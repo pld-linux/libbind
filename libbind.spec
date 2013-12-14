@@ -1,3 +1,4 @@
+# NOTE: will be superseded by http://wiki.netbsd.org/individual-software-releases/netresolv/
 Summary:	libbind provides the standard resolver library
 Summary(pl.UTF-8):	Standardowa biblioteka rozwiązywania nazw
 Name:		libbind
@@ -5,9 +6,9 @@ Version:	6.0
 Release:	1
 License:	BSD
 Group:		Libraries
-Source0:	ftp://ftp.isc.org/isc/libbind/%{version}/%{name}-%{version}.tar.gz
+Source0:	http://ftp.isc.org/isc/libbind/%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	3e4e36fa39d0275ef97f74b737f30f0b
-URL:		http://www.isc.org/software/libbind
+URL:		http://www.isc.org/software/libbind/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -20,14 +21,24 @@ TSIG transaction/request security of DNS messages, performing
 name-to-address and address-to-name translations, and utilizing
 /etc/resolv.conf for resolver configuration.
 
+%description -l pl.UTF-8
+ISC libbind to biblioteka standardowego resolvera (rozwiązywania nazw)
+wraz z plikami nagłówkowymi i dokumentacją do komunikacji z serwerami
+nazw, pobierania wpisów hostów sieciowych z pliku /etc/hosts lub
+poprzez DNS, przekształcania adresów sieci CIDR, wyszukiwania
+informacji Hesiod, pobierania wpisów sieci z /etc/networks,
+implementacji bezpieczeństwa transakcji/żądań TSIG komunikatów DNS,
+tłumaczenia nazw na adresy i adresów na nazwy oraz wykorzystywania
+pliku /etc/resolv.conf do konfiguracji.
+
 %package devel
-Summary:	Header files and develpment documentation for libbind
-Summary(pl.UTF-8):	Pliki nagłówkowe i dokumentacja biblioteki libbind
+Summary:	Header files for libbind library
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki libbind
 Group:		Development/Libraries
-Requires:	%{name} = %{epoch}:%{version}-%{release}
+Requires:	%{name} = %{version}-%{release}
 
 %description devel
-Header files and libbind documentation.
+Header files for libbind library.
 
 %description devel -l pl.UTF-8
 Pliki nagłówkowe biblioteki libbind.
@@ -36,7 +47,7 @@ Pliki nagłówkowe biblioteki libbind.
 Summary:	Static libbind library
 Summary(pl.UTF-8):	Statyczna biblioteka libbind
 Group:		Development/Libraries
-Requires:	%{name}-devel = %{epoch}:%{version}-%{release}
+Requires:	%{name}-devel = %{version}-%{release}
 
 %description static
 Static libbind library.
@@ -49,11 +60,11 @@ Statyczna biblioteka libbind.
 
 %build
 %configure \
-	--with-libtool \
-	--enable-threads \
+	--includedir=%{_includedir}/%{name} \
 	--enable-shared \
 	--enable-static \
-	--includedir=%{_includedir}/%{name}
+	--enable-threads \
+	--with-libtool
 
 %{__make}
 
@@ -62,6 +73,13 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
+
+# preprocessed man pages
+%{__rm} -r $RPM_BUILD_ROOT%{_mandir}/cat{3,5,7}
+# provided by glibc-devel-doc
+%{__rm} $RPM_BUILD_ROOT%{_mandir}/man3/{getaddrinfo,gethostbyname,getipnodebyname,getnameinfo,getnetent,resolver}.3
+# provided by man-pages
+%{__rm} $RPM_BUILD_ROOT%{_mandir}/{man5/resolver.5,man7/hostname.7}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -81,6 +99,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libbind.so
 %{_libdir}/libbind.la
 %{_includedir}/%{name}
+%{_mandir}/man3/hesiod.3*
+%{_mandir}/man3/inet_cidr.3*
+%{_mandir}/man3/tsig.3*
 
 %files static
 %defattr(644,root,root,755)
